@@ -5,20 +5,27 @@ import com.ivlev.javaSpringStoreSite.model.RefreshAuthResponse;
 import com.ivlev.javaSpringStoreSite.model.SignInAuthResponse;
 import com.ivlev.javaSpringStoreSite.model.SignInRequest;
 import com.ivlev.javaSpringStoreSite.model.RefreshAuthRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(value = "client", url = "http://localhost:8081")
-public interface FeignImpl {
+import java.util.List;
+
+@FeignClient(value = "auth", url = "http://localhost:8081")
+public interface FeignAuthImpl {
 
     @PostMapping("/auth/refresh-token")
     ResponseEntity<RefreshAuthResponse> refreshAuth(@RequestBody RefreshAuthRequest request);
 
     @PostMapping("/auth/sign-in")
     ResponseEntity<SignInAuthResponse> signInUser(@RequestBody SignInRequest signInRequest);
+
+    @PostMapping("/auth/logout")
+    ResponseEntity<?> logout(@RequestHeader("Authorization") String token);
 
 }
 

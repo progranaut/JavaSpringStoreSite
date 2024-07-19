@@ -1,5 +1,6 @@
 package com.ivlev.javaSpringStoreSite.controller;
 
+import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
 import com.ivlev.javaSpringStoreSite.service.StoreService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,8 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/store")
 public class StoreController {
@@ -18,9 +22,12 @@ public class StoreController {
 
     @GetMapping("/current-user-name-roll")
     public ResponseEntity<?> userName(HttpServletRequest request) {
-
         return storeService.getCurrentUserNameAndRole(request);
+    }
 
+    @GetMapping("/all-products")
+    public List<ProductDto> allProducts() {
+        return storeService.getAllProduct();
     }
 
 }

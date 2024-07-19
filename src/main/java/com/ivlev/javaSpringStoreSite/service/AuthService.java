@@ -1,13 +1,12 @@
 package com.ivlev.javaSpringStoreSite.service;
 
 import com.ivlev.javaSpringStoreSite.entity.Auth;
-import com.ivlev.javaSpringStoreSite.feign.FeignImpl;
+import com.ivlev.javaSpringStoreSite.feign.FeignAuthImpl;
 import com.ivlev.javaSpringStoreSite.model.SignInRequest;
 import com.ivlev.javaSpringStoreSite.model.SignInAuthResponse;
 import com.ivlev.javaSpringStoreSite.model.RefreshAuthRequest;
 import com.ivlev.javaSpringStoreSite.model.RefreshAuthResponse;
 import com.ivlev.javaSpringStoreSite.repository.AuthRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class AuthService {
 
     private final AuthRepository authRepository;
 
-    private final FeignImpl feign;
+    private final FeignAuthImpl feign;
 
     public ResponseEntity<?> signInUser(SignInRequest signInRequest, HttpServletRequest request, HttpServletResponse response) {
         ResponseEntity<SignInAuthResponse> signInResp = feign.signInUser(signInRequest);
@@ -102,4 +101,16 @@ public class AuthService {
                 .build();
     }
 
+    public void logout(HttpServletRequest request) {
+
+        String sessionId = request.getSession().getId();
+
+        String token = authRepository.getAuth(sessionId).getToken();
+
+        ResponseEntity<?> response = feign.logout("Bearer " + token);
+        if (response.getStatusCode().is2xxSuccessful()) {
+            delAuth(sessionId);
+        }
+
+    }
 }

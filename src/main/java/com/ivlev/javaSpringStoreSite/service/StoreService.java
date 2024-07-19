@@ -1,8 +1,10 @@
 package com.ivlev.javaSpringStoreSite.service;
 
 import com.ivlev.javaSpringStoreSite.entity.Auth;
-import com.ivlev.javaSpringStoreSite.feign.FeignImpl;
+import com.ivlev.javaSpringStoreSite.feign.FeignAuthImpl;
+import com.ivlev.javaSpringStoreSite.feign.FeignStoreImpl;
 import com.ivlev.javaSpringStoreSite.model.UserNameAndRoleResponse;
+import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +21,9 @@ public class StoreService {
 
     private final AuthService authService;
 
-    private final FeignImpl feign;
+    private final FeignAuthImpl feignAuth;
+
+    private final FeignStoreImpl feignStore;
 
     public ResponseEntity<?> getCurrentUserNameAndRole(HttpServletRequest request) {
 
@@ -52,6 +56,12 @@ public class StoreService {
                 .name(auth.getUserName())
                 .roles(new HashSet<>(auth.getRoles()))
                 .build(), HttpStatus.OK);
+
+    }
+
+    public List<ProductDto> getAllProduct() {
+
+        return feignStore.getAllProduct();
 
     }
 }

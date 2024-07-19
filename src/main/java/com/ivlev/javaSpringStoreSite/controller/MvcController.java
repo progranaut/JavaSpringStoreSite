@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class MvcController {
 
+    @GetMapping("/")
+    public String ho(){
+        return "home";
+    }
+
     @GetMapping("/home")
     public String home(){
         return "home";

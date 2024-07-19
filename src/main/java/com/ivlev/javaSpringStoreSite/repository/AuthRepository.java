@@ -1,7 +1,6 @@
 package com.ivlev.javaSpringStoreSite.repository;
 
 import com.ivlev.javaSpringStoreSite.entity.Auth;
-import com.ivlev.javaSpringStoreSite.feign.FeignImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

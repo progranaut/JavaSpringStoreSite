@@ -12,10 +12,10 @@ async function displayMenuUser() {
         let roleAdmin = false;
 
         response.roles.forEach(role => {
-            if (role.roleType === "ROLE_ADMIN") {
+            if (role === "ROLE_ADMIN") {
                 roleAdmin = true;
             }
-            if (role.roleType === "ROLE_USER") {
+            if (role === "ROLE_USER") {
                 roleUser = true;
             }
         });
@@ -53,7 +53,7 @@ async function displayMenuUser() {
         userInfo.appendChild(cartBtn);
 
         let logOut = document.createElement('a');
-        logOut.setAttribute('href', 'http://localhost:8080/logout');
+        logOut.setAttribute('href', 'http://localhost:8080/auth/logout');
         logOut.classList.add('menu_btn');
         logOut.classList.add('exit_btn');
         logOut.innerHTML = "Выйти";
