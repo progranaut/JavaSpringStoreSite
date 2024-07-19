@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,18 +29,8 @@ public class StoreService {
 
     public ResponseEntity<?> getCurrentUserNameAndRole(HttpServletRequest request) {
 
-//        System.out.println(request.getSession().getId());
-
         String sessionId = request.getSession().getId();
         System.out.println(sessionId);
-
-//        String[] cookies = request.getHeader("Cookie").split(";");
-//        for (var cook : cookies) {
-//            String[] someCook = cook.trim().split("=");
-//            if (someCook[0].equals("JSESSIONID")) {
-//                sessionId = someCook[1];
-//            }
-//        }
 
         if (!authService.containAuth(sessionId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -47,7 +38,7 @@ public class StoreService {
 
         Auth auth = authService.getAuth(sessionId);
 
-        if (auth.getTime().plusMinutes(15).isBefore(LocalDateTime.now())) {
+        if (auth.getTime().plusMinutes(30).isBefore(LocalDateTime.now())) {
             authService.delAuth(sessionId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -73,5 +64,23 @@ public class StoreService {
         String token = authService.getAuth(sessionId).getToken();
         feignStore.addBasket("Bearer " + token, uprd);
 
+    }
+
+    public List<UserProductRelationDto> getAllProductsInBasket(HttpServletRequest request) {
+
+        String token = authService.getToken(request.getSession().getId());
+        return feignStore.getAllProductInBasket("Bearer " + token);
+
+    }
+
+    public ResponseEntity<UserProductRelationDto> deleteProductFromBasket(String id, HttpServletRequest request) {
+
+        String token = authService.getToken(request.getSession().getId());
+        ResponseEntity<UserProductRelationDto> response = feignStore.deleteProductFromBasket("Bearer " + token, id);
+        if (response.getStatusCode().value() == 404) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
     }
 }

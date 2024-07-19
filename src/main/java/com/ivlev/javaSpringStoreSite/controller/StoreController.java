@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,4 +35,13 @@ public class StoreController {
         storeService.addBasket(uprd, request);
     }
 
+    @GetMapping("/all-products-in-basket")
+    public List<UserProductRelationDto> getProductsInCart (HttpServletRequest request) {
+        return storeService.getAllProductsInBasket(request);
+    }
+
+    @GetMapping("/delete-product-from-basket/{id}")
+    public ResponseEntity<UserProductRelationDto> deleteProductInBasket(@PathVariable String id, HttpServletRequest request) {
+        return storeService.deleteProductFromBasket(id, request);
+    }
 }

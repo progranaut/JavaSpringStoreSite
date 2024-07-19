@@ -52,11 +52,12 @@ async function displayProductInCart() {
         btnMinus.classList.add('minus_quantity');
         btnMinus.innerText = "-";
         btnMinus.addEventListener('click', async (e) => {
-            let request = new Request("http://localhost:8080/store/delete-product-from-basket/" + relation.productDto.id, {
-                method: "DELETE"
-            });
+            // let request = new Request("http://localhost:8080/store/delete-product-from-basket/" + relation.productDto.id, {
+            //     method: "DELETE"
+            // });
+            let request = new Request("http://localhost:8080/store/delete-product-from-basket/" + relation.productDto.id);
             let responseDel = await fetch(request);
-            if (responseDel.status != 404) {
+            if (responseDel.status === 200) {
                 let respJson = await responseDel.json();
                 prodQuantity.innerText = respJson.quantity;
             } else {

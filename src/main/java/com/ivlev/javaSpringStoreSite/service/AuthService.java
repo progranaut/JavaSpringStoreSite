@@ -39,14 +39,6 @@ public class AuthService {
 
         addAuth(request.getSession().getId(), signInAuthResponse);
 
-//        Cookie cookie = new Cookie("MSESSIONID", signInAuthResponse.getId().toString());//создаем объект Cookie,
-//        //в конструкторе указываем значения для name и value
-//        cookie.setPath("/");//устанавливаем путь
-//        cookie.setMaxAge(86400);//здесь устанавливается время жизни куки
-//
-//        response.addCookie(cookie);//добавляем Cookie в запрос
-//        response.setContentType("text/plain");//устанавливаем контекст
-
         return ResponseEntity.ok().body(HttpStatus.OK);
     }
 
@@ -87,6 +79,23 @@ public class AuthService {
         auth.setTime(LocalDateTime.now());
 
         return authRepository.addAuth(sessionId, auth);
+
+    }
+
+    public String getToken(String sessionId) {
+
+        Auth auth = getAuth(sessionId);
+
+        if (auth.getTime().plusMinutes(9).isAfter(LocalDateTime.now())) {
+            return auth.getToken();
+        }
+
+        if (auth.getTime().plusMinutes(29).isAfter(LocalDateTime.now())) {
+            return refreshAuth(sessionId).getToken();
+        }
+
+        delAuth(sessionId);
+        return null;
 
     }
 
