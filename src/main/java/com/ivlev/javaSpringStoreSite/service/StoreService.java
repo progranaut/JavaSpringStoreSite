@@ -5,6 +5,7 @@ import com.ivlev.javaSpringStoreSite.feign.FeignAuthImpl;
 import com.ivlev.javaSpringStoreSite.feign.FeignStoreImpl;
 import com.ivlev.javaSpringStoreSite.model.UserNameAndRoleResponse;
 import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
+import com.ivlev.javaSpringStoreSite.model.dto.UserProductRelationDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,17 +28,18 @@ public class StoreService {
 
     public ResponseEntity<?> getCurrentUserNameAndRole(HttpServletRequest request) {
 
-        System.out.println(request.getSession().getId());
+//        System.out.println(request.getSession().getId());
 
-        String sessionId = "";
+        String sessionId = request.getSession().getId();
+        System.out.println(sessionId);
 
-        String[] cookies = request.getHeader("Cookie").split(";");
-        for (var cook : cookies) {
-            String[] someCook = cook.trim().split("=");
-            if (someCook[0].equals("JSESSIONID")) {
-                sessionId = someCook[1];
-            }
-        }
+//        String[] cookies = request.getHeader("Cookie").split(";");
+//        for (var cook : cookies) {
+//            String[] someCook = cook.trim().split("=");
+//            if (someCook[0].equals("JSESSIONID")) {
+//                sessionId = someCook[1];
+//            }
+//        }
 
         if (!authService.containAuth(sessionId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,6 +64,14 @@ public class StoreService {
     public List<ProductDto> getAllProduct() {
 
         return feignStore.getAllProduct();
+
+    }
+
+    public void addBasket(List<UserProductRelationDto> uprd, HttpServletRequest request) {
+
+        String sessionId = request.getSession().getId();
+        String token = authService.getAuth(sessionId).getToken();
+        feignStore.addBasket("Bearer " + token, uprd);
 
     }
 }
