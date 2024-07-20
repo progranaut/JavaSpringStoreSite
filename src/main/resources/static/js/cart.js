@@ -82,9 +82,10 @@ async function displayProductInCart() {
         btnPlus.classList.add('plus_quantity');
         btnPlus.innerText = "+";
         btnPlus.addEventListener('click', async (e)=>{
-            let response = await fetch("http://localhost:8080/store/add-in-basket/" + relation.productDto.id, {
-                method: "POST"
-            });
+            // let response = await fetch("http://localhost:8080/store/add-in-basket/" + relation.productDto.id, {
+            //     method: "POST"
+            // });
+            let response = await fetch("http://localhost:8080/store/add-in-basket/" + relation.productDto.id);
             if (response.status === 200) {
                 let respJson = await response.json();
                 prodQuantity.innerText = respJson.quantity;

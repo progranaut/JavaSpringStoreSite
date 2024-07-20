@@ -131,7 +131,7 @@ public class AuthService {
     public boolean isAdmin(HttpServletRequest request) {
 
         Auth auth = getAuth(request);
-        if (auth.getRoles().contains("ROLE_ADMIN")) {
+        if (auth != null && auth.getRoles().contains("ROLE_ADMIN")) {
             return true;
         }
         return false;

@@ -75,9 +75,10 @@ async function displayProducts() {
             btnNotInBasket.innerText = "Добавить";
             btnNotInBasket.classList.add('add_in_basket');
             btnNotInBasket.addEventListener('click', async (e) => {
-                await fetch("http://localhost:8080/store/add-in-basket/" + product.id, {
-                    method: "POST"
-                });
+                // await fetch("http://localhost:8080/store/add-in-basket/" + product.id, {
+                //     method: "POST"
+                // });
+                await fetch("http://localhost:8080/store/add-in-basket/" + product.id);
                 let resp = await fetch("http://localhost:8080/store/product-in-basket/" + product.id, {
                     method: "HEAD"
                 });

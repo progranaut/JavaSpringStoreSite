@@ -51,4 +51,14 @@ public class StoreController {
         return storeService.getCurrentUser(request);
     }
 
+    @GetMapping("/add-in-basket/{id}")
+    public ResponseEntity addProductInBasket(@PathVariable UUID id, HttpServletRequest request){
+        return storeService.addProductInBasket(id, request);
+    }
+
+    @GetMapping("/add-order")
+    public ResponseEntity<?> addOrder(HttpServletRequest request) {
+        return storeService.addOrder(request);
+    }
+
 }

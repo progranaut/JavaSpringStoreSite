@@ -29,4 +29,10 @@ public interface FeignStoreImpl {
     @GetMapping("/current-user")
     UserDto getCurrentUser(@RequestHeader("Authorization") String token);
 
+    @PostMapping("/add-in-basket/{id}")
+    ResponseEntity<?> addProductInBasket(@RequestHeader("Authorization") String s, @PathVariable UUID id);
+
+    @GetMapping("/add-order")
+    ResponseEntity<?> addOrder(@RequestHeader("Authorization") String s);
+
 }

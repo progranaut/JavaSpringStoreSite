@@ -92,4 +92,18 @@ public class StoreService {
         return feignStore.getCurrentUser("Bearer " + token);
 
     }
+
+    public ResponseEntity addProductInBasket(UUID id, HttpServletRequest request) {
+
+        String token = authService.getToken(request);
+        return feignStore.addProductInBasket("Bearer " + token, id);
+
+    }
+
+    public ResponseEntity<?> addOrder(HttpServletRequest request) {
+
+        String token = authService.getToken(request);
+        return feignStore.addOrder("Bearer " + token);
+
+    }
 }
