@@ -27,15 +27,11 @@ registerBtn.addEventListener('click', (e) => {
         e.preventDefault();
         let form = document.getElementById('log_reg_form');
         let user = {
-            name: form.name.value,
-            email: form.username.value,
-            securityUserDto: {
-                email: form.username.value,
-                password: form.password.value
-            }
+            username: form.username.value,
+            password: form.password.value
         }
         console.log(user);
-        await fetch('http://localhost:8080/store/user-registration-v2', {
+        await fetch('http://localhost:8080/auth/user-registration', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

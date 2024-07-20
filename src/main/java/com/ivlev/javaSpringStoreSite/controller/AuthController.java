@@ -1,6 +1,8 @@
 package com.ivlev.javaSpringStoreSite.controller;
 
+import com.ivlev.javaSpringStoreSite.model.CreateUserRequest;
 import com.ivlev.javaSpringStoreSite.model.SignInRequest;
+import com.ivlev.javaSpringStoreSite.model.dto.UserDto;
 import com.ivlev.javaSpringStoreSite.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +28,11 @@ public class AuthController {
     public void logOut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authService.logout(request);
         response.sendRedirect("http://localhost:8080/home");
+    }
+
+    @PostMapping("/user-registration")
+    public void userRegistrationV2(@RequestBody CreateUserRequest createUserRequest) {
+        authService.userRegistration(createUserRequest);
     }
 
 }

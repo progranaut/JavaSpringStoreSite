@@ -1,11 +1,9 @@
 package com.ivlev.javaSpringStoreSite.feign;
 
 
-import com.ivlev.javaSpringStoreSite.model.RefreshAuthResponse;
-import com.ivlev.javaSpringStoreSite.model.SignInAuthResponse;
-import com.ivlev.javaSpringStoreSite.model.SignInRequest;
-import com.ivlev.javaSpringStoreSite.model.RefreshAuthRequest;
+import com.ivlev.javaSpringStoreSite.model.*;
 import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
+import com.ivlev.javaSpringStoreSite.model.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +24,9 @@ public interface FeignAuthImpl {
 
     @PostMapping("/logout")
     ResponseEntity<?> logout(@RequestHeader("Authorization") String token);
+
+    @PostMapping("/register")
+    void userRegistration(@RequestBody CreateUserRequest createUserRequest);
 
 }
 

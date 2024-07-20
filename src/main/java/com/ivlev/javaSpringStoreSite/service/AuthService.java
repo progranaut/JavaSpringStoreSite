@@ -2,10 +2,8 @@ package com.ivlev.javaSpringStoreSite.service;
 
 import com.ivlev.javaSpringStoreSite.entity.Auth;
 import com.ivlev.javaSpringStoreSite.feign.FeignAuthImpl;
-import com.ivlev.javaSpringStoreSite.model.SignInRequest;
-import com.ivlev.javaSpringStoreSite.model.SignInAuthResponse;
-import com.ivlev.javaSpringStoreSite.model.RefreshAuthRequest;
-import com.ivlev.javaSpringStoreSite.model.RefreshAuthResponse;
+import com.ivlev.javaSpringStoreSite.model.*;
+import com.ivlev.javaSpringStoreSite.model.dto.UserDto;
 import com.ivlev.javaSpringStoreSite.repository.AuthRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.script.ScriptEngine;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -135,6 +135,14 @@ public class AuthService {
             return true;
         }
         return false;
+
+    }
+
+    public void userRegistration(CreateUserRequest createUserRequest) {
+
+        createUserRequest.setRoles(new HashSet<>());
+        createUserRequest.getRoles().add("ROLE_USER");
+        feign.userRegistration(createUserRequest);
 
     }
 }

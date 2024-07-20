@@ -24,8 +24,6 @@ public class StoreService {
 
     private final AuthService authService;
 
-    private final FeignAuthImpl feignAuth;
-
     private final FeignStoreImpl feignStore;
 
     public ResponseEntity<?> getCurrentUserNameAndRole(HttpServletRequest request) {
@@ -104,6 +102,12 @@ public class StoreService {
 
         String token = authService.getToken(request);
         return feignStore.addOrder("Bearer " + token);
+
+    }
+
+    public void userRegistration(UserDto userDto) {
+
+
 
     }
 }
