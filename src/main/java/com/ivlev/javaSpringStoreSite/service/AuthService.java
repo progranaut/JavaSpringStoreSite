@@ -54,7 +54,8 @@ public class AuthService {
         return authRepository.containAuth(sessionId);
     }
 
-    public Auth getAuth(String sessionId) {
+    public Auth getAuth(HttpServletRequest request) {
+        String sessionId = request.getSession().getId();
         return authRepository.getAuth(sessionId);
     }
 
@@ -82,9 +83,11 @@ public class AuthService {
 
     }
 
-    public String getToken(String sessionId) {
+    public String getToken(HttpServletRequest request) {
 
-        Auth auth = getAuth(sessionId);
+        String sessionId = request.getSession().getId();
+
+        Auth auth = getAuth(request);
 
         if (auth.getTime().plusMinutes(9).isAfter(LocalDateTime.now())) {
             return auth.getToken();
@@ -94,7 +97,9 @@ public class AuthService {
             return refreshAuth(sessionId).getToken();
         }
 
+        logout(request);
         delAuth(sessionId);
+
         return null;
 
     }
@@ -120,6 +125,16 @@ public class AuthService {
         if (response.getStatusCode().is2xxSuccessful()) {
             delAuth(sessionId);
         }
+
+    }
+
+    public boolean isAdmin(HttpServletRequest request) {
+
+        Auth auth = getAuth(request);
+        if (auth.getRoles().contains("ROLE_ADMIN")) {
+            return true;
+        }
+        return false;
 
     }
 }

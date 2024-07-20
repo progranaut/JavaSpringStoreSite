@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
-@FeignClient(value = "auth", url = "http://localhost:8081")
+@FeignClient(value = "auth", url = "http://localhost:8081/auth")
 public interface FeignAuthImpl {
 
-    @PostMapping("/auth/refresh-token")
+    @PostMapping("/refresh-token")
     ResponseEntity<RefreshAuthResponse> refreshAuth(@RequestBody RefreshAuthRequest request);
 
-    @PostMapping("/auth/sign-in")
+    @PostMapping("/sign-in")
     ResponseEntity<SignInAuthResponse> signInUser(@RequestBody SignInRequest signInRequest);
 
-    @PostMapping("/auth/logout")
+    @PostMapping("/logout")
     ResponseEntity<?> logout(@RequestHeader("Authorization") String token);
 
 }

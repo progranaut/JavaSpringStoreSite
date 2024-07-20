@@ -5,6 +5,7 @@ import com.ivlev.javaSpringStoreSite.feign.FeignAuthImpl;
 import com.ivlev.javaSpringStoreSite.feign.FeignStoreImpl;
 import com.ivlev.javaSpringStoreSite.model.UserNameAndRoleResponse;
 import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
+import com.ivlev.javaSpringStoreSite.model.dto.UserDto;
 import com.ivlev.javaSpringStoreSite.model.dto.UserProductRelationDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class StoreService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Auth auth = authService.getAuth(sessionId);
+        Auth auth = authService.getAuth(request);
 
         if (auth.getTime().plusMinutes(30).isBefore(LocalDateTime.now())) {
             authService.delAuth(sessionId);
@@ -61,26 +62,34 @@ public class StoreService {
     public void addBasket(List<UserProductRelationDto> uprd, HttpServletRequest request) {
 
         String sessionId = request.getSession().getId();
-        String token = authService.getAuth(sessionId).getToken();
+        String token = authService.getAuth(request).getToken();
         feignStore.addBasket("Bearer " + token, uprd);
 
     }
 
     public List<UserProductRelationDto> getAllProductsInBasket(HttpServletRequest request) {
 
-        String token = authService.getToken(request.getSession().getId());
+        String token = authService.getToken(request);
         return feignStore.getAllProductInBasket("Bearer " + token);
 
     }
 
     public ResponseEntity<UserProductRelationDto> deleteProductFromBasket(String id, HttpServletRequest request) {
 
-        String token = authService.getToken(request.getSession().getId());
+        String token = authService.getToken(request);
         ResponseEntity<UserProductRelationDto> response = feignStore.deleteProductFromBasket("Bearer " + token, id);
         if (response.getStatusCode().value() == 404) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+    }
+
+    public UserDto getCurrentUser(HttpServletRequest request) {
+
+        String token = authService.getToken(request);
+
+        return feignStore.getCurrentUser("Bearer " + token);
+
     }
 }

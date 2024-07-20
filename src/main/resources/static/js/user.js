@@ -40,9 +40,6 @@ async function displayUser () {
             phoneNumber: form.phone.value,
             email: form.email.value,
             address: form.address.value,
-            securityUserDto: {
-                id: user.securityUserDto.id
-            }
         }
 
         // TODO Организовать определение security_id по user_id на бэкэ и не гонять sec_id на фронт

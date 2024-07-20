@@ -1,6 +1,7 @@
 package com.ivlev.javaSpringStoreSite.controller;
 
 import com.ivlev.javaSpringStoreSite.model.dto.ProductDto;
+import com.ivlev.javaSpringStoreSite.model.dto.UserDto;
 import com.ivlev.javaSpringStoreSite.model.dto.UserProductRelationDto;
 import com.ivlev.javaSpringStoreSite.service.StoreService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,4 +45,10 @@ public class StoreController {
     public ResponseEntity<UserProductRelationDto> deleteProductInBasket(@PathVariable String id, HttpServletRequest request) {
         return storeService.deleteProductFromBasket(id, request);
     }
+
+    @GetMapping("/current-user")
+    public UserDto getCurrentUser(HttpServletRequest request) {
+        return storeService.getCurrentUser(request);
+    }
+
 }
