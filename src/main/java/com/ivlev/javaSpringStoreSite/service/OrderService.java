@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -18,6 +20,13 @@ public class OrderService {
 
         String token = authService.getToken(request);
         return feignOrder.getAllCurrentUserOrders("Bearer " + token);
+
+    }
+
+    public ResponseEntity<?> getOrderByUserId(UUID uuid, HttpServletRequest request) {
+
+        String token = authService.getToken(request);
+        return feignOrder.getOrderByUserId("Bearer " + token, uuid);
 
     }
 }

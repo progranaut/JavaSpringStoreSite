@@ -236,7 +236,7 @@ productBtn.addEventListener('click', async (e) => {
 async function getCategories() {
     let select = document.createElement('select');
     select.setAttribute('id', 'categories');
-    let response = await fetch('http://localhost:8080/store/all-product-categories');
+    let response = await fetch('http://localhost:8080/category/all-product-categories');
     let category = await response.json();
     let categoryArray = Array.from(category);
     categoryArray.forEach(category => {

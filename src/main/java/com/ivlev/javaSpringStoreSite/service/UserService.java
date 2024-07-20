@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -17,9 +19,14 @@ public class UserService {
     public void changeUser(UserDto userDto, HttpServletRequest request) {
 
         String token = authService.getToken(request);
-        //userDto.setId(authService.getAuth(request).getId());
         feignUser.changeUser("Bearer " + token, userDto);
 
     }
 
+    public List<UserDto> getAllUsers(HttpServletRequest request) {
+
+        String token = authService.getToken(request);
+        return feignUser.getAllUsers("Bearer " + token);
+
+    }
 }
