@@ -47,6 +47,13 @@ public class StoreController {
         return storeService.deleteProductFromBasket(id, request);
     }
 
+    @GetMapping("/product-in-basket/{id}")
+    public ResponseEntity<?> productInBasket(@PathVariable UUID id, HttpServletRequest request) {
+
+        return storeService.productInBasket(id, request);
+
+    }
+
     @GetMapping("/current-user")
     public UserDto getCurrentUser(HttpServletRequest request) {
         return storeService.getCurrentUser(request);

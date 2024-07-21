@@ -35,4 +35,7 @@ public interface FeignStoreImpl {
     @GetMapping("/add-order")
     ResponseEntity<?> addOrder(@RequestHeader("Authorization") String s);
 
+    @GetMapping("/product-in-basket/{id}")
+    ResponseEntity<?> productInBasket(@RequestHeader("Authorization") String s, @PathVariable UUID id);
+
 }
