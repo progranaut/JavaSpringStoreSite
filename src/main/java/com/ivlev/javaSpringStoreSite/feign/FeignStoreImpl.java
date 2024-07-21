@@ -24,7 +24,8 @@ public interface FeignStoreImpl {
     List<UserProductRelationDto> getAllProductInBasket(@RequestHeader("Authorization") String token);
 
     @DeleteMapping("/delete-product-from-basket/{id}")
-    ResponseEntity<UserProductRelationDto> deleteProductFromBasket(@RequestHeader("Authorization") String token, @PathVariable String id);
+    ResponseEntity<UserProductRelationDto> deleteProductFromBasket(@RequestHeader("Authorization") String token,
+                                                                   @PathVariable String id);
 
     @GetMapping("/current-user")
     UserDto getCurrentUser(@RequestHeader("Authorization") String token);
